@@ -44,5 +44,8 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://psmuler.github.io/interactive-survey/"
+  "homepage": "https://psmuler.github.io/interactive-survey/",
+  "devDependencies": {
+    "prettier": "3.0.0"
+  }
 }
