@@ -10,29 +10,14 @@ import {
 } from 'chart.js';
 import React, { useState, useMemo } from 'react';
 import { Line } from 'react-chartjs-2';
-import { options as initialOptions } from './options';
+import { getInitialOptions } from './options';
 import chartjsPluginDragdata from 'chartjs-plugin-dragdata';
 import { Typography } from '@material-ui/core';
 
 function DraggableChart({ onDataChange, initialData, config }) {
-  const options = useMemo(() => {
-    const newOptions = { ...initialOptions };
-    newOptions.data.labels = config.labels;
-    newOptions.data.datasets[0].data = initialData;
-    newOptions.options.plugins.dragData.onDragEnd = function (
-      e,
-      datasetIndex,
-      index,
-      value,
-    ) {
-      e.target.style.cursor = 'default';
-      const newData = [...initialData];
-      newData[index] = value;
-      onDataChange(newData);
-    };
-
-    return newOptions;
-  }, [initialData, onDataChange, config]);
+  const options = getInitialOptions();
+  options.data.labels = config.labels;
+  options.data.datasets[0].data = initialData;
 
   Chart.register(
     ...registerables,
