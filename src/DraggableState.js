@@ -8,31 +8,27 @@ function valuetext(value) {
 const marks = [
   {
     value: 1,
-    label: '1',
+    label: 'I',
   },
   {
     value: 2,
-    label: '2',
+    label: 'II',
   },
   {
     value: 3,
-    label: '3',
+    label: 'III',
   },
   {
     value: 4,
-    label: '4',
+    label: 'IV',
   },
   {
     value: 5,
-    label: '5',
+    label: 'V',
   },
 ];
 
-function DraggableState({ onSliderChange }) {
-  const handleSliderChange = (event, newValue) => {
-    onSliderChange(newValue);
-  };
-
+function DraggableState() {
   return (
     <div>
       <Typography>あなたの研究室が実際どの状況にあるか</Typography>
@@ -45,7 +41,7 @@ function DraggableState({ onSliderChange }) {
         marks={marks}
         min={1.0}
         max={5.0}
-        onChange={handleSliderChange}
+        // onChange={handleSliderChange}
       />
     </div>
   );

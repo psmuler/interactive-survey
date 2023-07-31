@@ -8,16 +8,18 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import React, { useState, useMemo } from 'react';
+import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { getInitialOptions } from './options';
 import chartjsPluginDragdata from 'chartjs-plugin-dragdata';
 import { Typography } from '@material-ui/core';
 
-function DraggableChart({ onDataChange, initialData, config }) {
-  const options = getInitialOptions();
-  options.data.labels = config.labels;
-  options.data.datasets[0].data = initialData;
+function DraggableChart({ initialData, config }) {
+  const options = getInitialOptions(
+    config.short_labels,
+    config.full_labels,
+    initialData,
+  );
 
   Chart.register(
     ...registerables,
@@ -33,6 +35,9 @@ function DraggableChart({ onDataChange, initialData, config }) {
   return (
     <div>
       <Typography>{config.title}</Typography>
+      {config.full_labels.map((label, index) => (
+        <Typography key={index}>{label}</Typography>
+      ))}
       <Line
         height={200}
         width={'auto'}

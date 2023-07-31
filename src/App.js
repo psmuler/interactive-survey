@@ -1,31 +1,23 @@
 import React, { useState } from 'react';
-import { Button, Container } from '@material-ui/core';
+import { Box, Button, Container, Grid } from '@material-ui/core';
 import DraggableState from './DraggableState';
 import DraggableChart from './DraggableChart.js';
 import labels from './labels.js'; // Import your config
 
+const initialData = () => {
+  const array = Array(5)
+    .fill()
+    .map(() => Math.floor(Math.random() * 2 * 10) / 10);
+  return array;
+};
+const initialChartData = Object.keys(labels).reduce((acc, key) => {
+  acc[key] = initialData();
+  return acc;
+}, {});
+
 function App() {
-  const initialData = () => {
-    const array = Array(5)
-      .fill()
-      .map(() => Math.floor(Math.random() * 2 * 10) / 10);
-    return array;
-  };
-
-  const [chartData, setChartData] = useState({
-    chart1: initialData(),
-    chart2: initialData(),
-    chart3: initialData(),
-    chart4: initialData(),
-  });
-
-  const handleDataChange = (chartName, newData) => {
-    setChartData((prevData) => ({
-      ...prevData,
-      [chartName]: newData,
-    }));
-  };
-  const [sliderValue, setSliderValue] = useState(30);
+  const [chartData, setChartData] = useState(initialChartData);
+  const [sliderValue, setSliderValue] = useState(3);
 
   const handleSliderChange = (newValue) => {
     setSliderValue(newValue);
@@ -37,31 +29,19 @@ function App() {
   console.log(labels.chart1);
   return (
     <Container maxWidth="sm">
-      <DraggableChart
-        onDataChange={(newData) => handleDataChange('chart1', newData)}
-        initialData={chartData.chart1}
-        config={labels.chart1}
-      />
-      <DraggableChart
-        onDataChange={(newData) => handleDataChange('chart2', newData)}
-        initialData={chartData.chart2}
-        config={labels.chart2}
-      />
-      <DraggableChart
-        onDataChange={(newData) => handleDataChange('chart2', newData)}
-        initialData={chartData.chart3}
-        config={labels.chart3}
-      />
-      <DraggableChart
-        onDataChange={(newData) => handleDataChange('chart2', newData)}
-        initialData={chartData.chart4}
-        config={labels.chart4}
-      />
-
-      <DraggableState onSliderChange={handleSliderChange} />
-      <Button variant="contained" onClick={handleSubmit}>
-        Submit
-      </Button>
+      <Grid container direction="column" spacing={10}>
+        {Object.keys(labels).map((key) => (
+          <Grid item key={key}>
+            <DraggableChart initialData={chartData[key]} config={labels[key]} />
+            <DraggableState onSliderChange={handleSliderChange} />
+          </Grid>
+        ))}
+        <Box m={10}>
+          <Button variant="contained" onClick={handleSubmit}>
+            Submit
+          </Button>
+        </Box>
+      </Grid>
     </Container>
   );
 }

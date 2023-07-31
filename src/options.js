@@ -1,10 +1,13 @@
 // chartjsで表示させたい情報を定義
-export const getInitialOptions = () => {
+
+export const getInitialOptions = (short_labels, full_labels, dataset) => {
   return {
     type: 'line',
     data: {
+      labels: short_labels,
       datasets: [
         {
+          data: dataset,
           label: '研究力を発揮できる度合い',
           fill: true,
           tension: 0,
@@ -15,7 +18,18 @@ export const getInitialOptions = () => {
     },
     options: {
       scales: {
+        x: {
+          ticks: {
+            callback: function (value, index) {
+              return short_labels[index];
+            },
+          },
+          offset: true,
+        },
         y: {
+          grid: {
+            display: false,
+          },
           min: 0,
           max: 2,
         },
@@ -33,9 +47,10 @@ export const getInitialOptions = () => {
       plugins: {
         tooltip: {
           callbacks: {
-            title: (context) => {
-              console.log(context[0].label);
-              return context[0].label.replaceAll(',', '');
+            title: (tooltipItem, data) => {
+              // Tooltipのラベルをフルテキストに]
+              console.log(tooltipItem[0].dataIndex);
+              return full_labels[tooltipItem[0].dataIndex];
             },
           },
         },
