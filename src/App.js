@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import DraggableChart from './DraggableChart';
+import { Button, Container, Typography } from '@material-ui/core';
+import DraggableState from './DraggableState';
 
 function App() {
+  const initialData = Array(5).fill().map(() => Math.floor(Math.random() * 2 * 10) / 10);
+
+  const [chartData, setChartData] = useState(initialData);
+  const [sliderValue, setSliderValue] = useState(30);
+
+  const handleDataChange = (newData) => {
+    setChartData(newData);
+  }
+  const handleSliderChange = (newValue) => {
+    setSliderValue(newValue);
+  }
+
+  const handleSubmit = () => {
+    console.log(sliderValue, chartData);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Container maxWidth="sm">
+      <Typography>論文完成時、研究成果の解釈にあなたの解釈が含まれている度合い</Typography>
+      <DraggableChart onDataChange={handleDataChange} initialData={chartData} />
+      <DraggableState onSliderChange={handleSliderChange} />
+      <Button variant='contained' onClick={handleSubmit}>Submit</Button>
+    </Container>
+  )
 }
 
 export default App;
