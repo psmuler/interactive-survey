@@ -34,13 +34,15 @@ function DraggableChart({ initialData, config }) {
 
   return (
     <div>
-      <Typography>{config.title}</Typography>
+      <Typography variant="h5">{config.title}</Typography>
       {config.full_labels.map((label, index) => (
-        <Typography key={index}>{label}</Typography>
+        <Typography variant="body2" key={index}>
+          {label}
+        </Typography>
       ))}
       <Line
-        height={200}
-        width={'auto'}
+        // height={200}
+        // width={'flex'}
         data={options.data}
         options={options.options}
         plugins={[options.options.plugins]}

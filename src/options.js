@@ -30,8 +30,14 @@ export const getInitialOptions = (short_labels, full_labels, dataset) => {
           grid: {
             display: false,
           },
+          ticks: {
+            stepSize: 0.25,
+            callback: function (value, index, ticks) {
+              return value * 100 + '%';
+            },
+          },
           min: 0,
-          max: 2,
+          max: 1,
         },
       },
       onHover: function (e) {
@@ -49,7 +55,6 @@ export const getInitialOptions = (short_labels, full_labels, dataset) => {
           callbacks: {
             title: (tooltipItem, data) => {
               // Tooltipのラベルをフルテキストに]
-              console.log(tooltipItem[0].dataIndex);
               return full_labels[tooltipItem[0].dataIndex];
             },
           },
@@ -61,11 +66,9 @@ export const getInitialOptions = (short_labels, full_labels, dataset) => {
           // },
           onDrag: function (e, datasetIndex, index, value) {
             e.target.style.cursor = 'grabbing';
-            // console.log(e, datasetIndex, index, value)
           },
           onDragEnd: function (e, datasetIndex, index, value) {
             e.target.style.cursor = 'default';
-            // console.log(datasetIndex, index, value)
           },
         },
       },
